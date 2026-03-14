@@ -16,6 +16,7 @@ Use this skill when:
 - Your daily logs are accumulating and you need to extract what matters
 - You want to ensure important decisions/preferences/learnings make it into long-term memory
 - You're doing weekly/monthly memory maintenance
+- You suspect recent work might contradict earlier decisions (conflict detection)
 
 **Do NOT use** for:
 - Real-time memory updates (just write directly to MEMORY.md during sessions)
@@ -90,6 +91,45 @@ node scripts/review.js --days 7 --apply
 
 This generates suggestions and immediately prompts you to apply them. Good for quick weekly reviews.
 
+### Conflict detection
+
+Check for potential contradictions in recent work:
+
+```bash
+cd ~/.openclaw/workspace/skills/memory-maint
+node scripts/conflicts.js --days 14
+```
+
+**What it detects:**
+- Contradictory actions (refactored X, then modified "original" X)
+- Reversed decisions without explanation
+- Incompatible stated preferences
+
+**What it ignores (not flagged):**
+- Repeated learnings (reinforcement is good!)
+- Related but different decisions
+- Evolution of understanding
+
+The tool is conservative - it won't be aggressive about flagging things. When in doubt, it assumes things are fine.
+
+**Programmatic usage:**
+
+```javascript
+const { runConflictDetection } = require('~/.openclaw/workspace/skills/memory-maint/lib/memoryMaint');
+
+const result = await runConflictDetection({
+  days: 14,
+  skillPath: '~/.openclaw/workspace/skills/memory-maint',
+  sessions_spawn: sessions_spawn,
+  logger: console.log
+});
+
+if (result.conflicts && result.conflicts.length > 0) {
+  console.log(`Found ${result.conflicts.length} potential conflict(s)`);
+  // Review and resolve manually
+}
+```
+
 ### Advanced options
 
 ```bash
@@ -104,6 +144,12 @@ node scripts/review.js --apply --dry-run
 
 # Auto-apply without confirmation (careful!)
 node scripts/review.js --apply --yes
+
+# Conflict detection with custom days
+node scripts/conflicts.js --days 21
+
+# Save conflicts to file
+node scripts/conflicts.js --output my-conflicts.md
 ```
 
 ## Integration Patterns

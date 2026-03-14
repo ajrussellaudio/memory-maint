@@ -51,6 +51,19 @@ This will:
 3. Generate `memory-review.md` with suggestions
 4. Show you what would be added
 
+### Detect conflicts in recent work
+
+```bash
+node scripts/conflicts.js
+```
+
+This checks for potential contradictions in your daily logs, such as:
+- Refactoring code then modifying the "original" version
+- Reversing decisions without explanation
+- Incompatible preferences
+
+**Note:** The tool is conservative - it won't flag repeated learnings (reinforcement is good!).
+
 ### Apply suggestions
 
 After reviewing the suggestions in `memory-review.md`, apply them:
@@ -81,6 +94,12 @@ node scripts/review.js --apply --yes
 
 # Dry run (show changes but don't write)
 node scripts/review.js --apply --dry-run
+
+# Check for conflicts in last 14 days
+node scripts/conflicts.js --days 14
+
+# Save conflicts report
+node scripts/conflicts.js --output conflicts-report.md
 ```
 
 ## How It Works

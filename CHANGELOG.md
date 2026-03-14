@@ -5,6 +5,26 @@ All notable changes to memory-maint will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Conflict detection** - Identifies potential contradictions in recent work (Phase 2 feature)
+- New `scripts/conflicts.js` command to check for conflicts
+- `lib/conflicts.js` module with detection and formatting logic
+- `prompts/conflicts.txt` - Conservative conflict detection prompt
+- `runConflictDetection()` function exported from memoryMaint.js
+- 6 new unit tests for conflict detection formatting
+- Conservative approach: only flags genuine contradictions, not reinforcement
+
+### Changed
+- Default conflict detection window: 14 days (vs 7 for review)
+- Documentation updated with conflict detection usage
+
+### Design Philosophy
+- **Conservative by default:** Won't flag repeated learnings (reinforcement is good!)
+- **Focus on contradictions:** Refactored code vs modifying "original", reversed decisions
+- **Not aggressive:** When in doubt, assumes consistency rather than conflict
+
 ## [0.1.0] - 2026-03-14
 
 ### Added
