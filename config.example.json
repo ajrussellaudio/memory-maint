@@ -1,0 +1,9 @@
+{
+  "workspacePath": "~/.openclaw/workspace",
+  "memoryFile": "MEMORY.md",
+  "dailyLogsPath": "memory",
+  "dailyLogsPattern": "YYYY-MM-DD.md",
+  "model": "auto",
+  "reviewOutputPath": "memory-review.md",
+  "llmCommand": "gemini"
+}

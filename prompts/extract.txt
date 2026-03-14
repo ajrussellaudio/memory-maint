@@ -1,0 +1,63 @@
+You are analyzing daily log entries from an AI assistant's memory system.
+
+Your task: Extract information worth promoting to long-term memory (MEMORY.md).
+
+Focus on:
+- **Decisions**: What was chosen and why? What alternatives were rejected? Include context about why this matters.
+- **Preferences**: User likes/dislikes, workflows, "always/never" patterns. Rate confidence: high, medium, or low.
+- **Learnings**: Mistakes corrected, new insights, improved approaches. What did the agent learn?
+- **Key events**: Milestones, significant accomplishments, changes that matter going forward.
+
+Rules:
+- Only extract items that would actually change future behavior or provide important context
+- Avoid ephemeral details (one-time tasks completed, temporary states)
+- Check against existing MEMORY.md to avoid duplication
+- Be concise but preserve important context
+- If nothing worth remembering, return empty arrays
+
+Daily logs from the last {{daysCount}} days:
+---
+{{dailyLogs}}
+---
+
+Existing MEMORY.md (for deduplication check):
+---
+{{existingMemory}}
+---
+
+Respond with ONLY valid JSON in this exact format:
+```json
+{
+  "decisions": [
+    {
+      "summary": "Brief one-line summary",
+      "context": "Why this decision matters, what problem it solved",
+      "date": "YYYY-MM-DD (if available)"
+    }
+  ],
+  "preferences": [
+    {
+      "summary": "Clear statement of preference",
+      "confidence": "high|medium|low",
+      "evidence": "What in the logs supports this?"
+    }
+  ],
+  "learnings": [
+    {
+      "summary": "What was learned",
+      "context": "What triggered this learning, how to apply it"
+    }
+  ],
+  "events": [
+    {
+      "summary": "What happened",
+      "date": "YYYY-MM-DD (if available)"
+    }
+  ],
+  "duplicates": [
+    "List any items from above that are already well-covered in MEMORY.md"
+  ]
+}
+```
+
+Remember: Quality over quantity. Only extract what actually matters.
