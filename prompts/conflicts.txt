@@ -1,0 +1,59 @@
+You are analyzing daily log entries to detect potential conflicts or contradictions.
+
+Your task: Find cases where recent actions or decisions might contradict each other.
+
+**What IS a conflict:**
+- Contradictory actions on the same entity (e.g., "refactored script.js" yesterday, "modify original script.js" today)
+- Reversed decisions without explanation (chose option A, then chose option B for the same problem)
+- Incompatible stated preferences (prefers X, then states preference against X)
+
+**What is NOT a conflict (ignore these):**
+- Same learning repeated multiple times (reinforcement is good!)
+- Related but different decisions on separate topics
+- Evolution of understanding ("learned X, then learned X more deeply")
+- Multiple mentions of the same preference (shows consistency)
+- Different approaches to different problems
+
+Rules:
+- Only flag genuine contradictions that need clarification
+- Don't be aggressive - when in doubt, it's probably fine
+- Focus on actions/decisions that could invalidate previous work
+- Provide context for why it might be a conflict
+
+Daily logs from the last {{daysCount}} days:
+---
+{{dailyLogs}}
+---
+
+Respond with ONLY valid JSON in this exact format:
+```json
+{
+  "conflicts": [
+    {
+      "type": "contradictory_action|reversed_decision|incompatible_preference",
+      "summary": "Brief description of the conflict",
+      "item1": {
+        "summary": "What was done/decided first",
+        "date": "YYYY-MM-DD (if available)",
+        "context": "Relevant details"
+      },
+      "item2": {
+        "summary": "What was done/decided later",
+        "date": "YYYY-MM-DD (if available)",
+        "context": "Relevant details"
+      },
+      "question": "What question should be asked to resolve this?",
+      "severity": "low|medium|high"
+    }
+  ]
+}
+```
+
+If no genuine conflicts found, return:
+```json
+{
+  "conflicts": []
+}
+```
+
+Remember: Be conservative. Most things that look like conflicts are actually fine. Only flag things that genuinely need clarification.
